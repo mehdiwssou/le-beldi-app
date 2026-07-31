@@ -12,6 +12,7 @@ import EmployeeCard from "../components/EmployeeCard";
 import BottomNavigation from "../components/BottomNavigation";
 
 import { getEmployees } from "../services/employees";
+import logo from "../assets/logo.png";
 
 
 function Home({ setPage }) {
@@ -119,7 +120,7 @@ function Home({ setPage }) {
       >
 
         <img
-          src="/src/assets/logo.png"
+          src={logo}
           alt="Le Beldi"
           className="
             w-16
