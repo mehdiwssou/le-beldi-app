@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.png";
+import logo from "../assets/logo.png";
 
 function Brand({ size = 230 }) {
   return (
