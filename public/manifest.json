@@ -1,0 +1,21 @@
+{
+  "name": "Le Beldi - Gestion des Employés",
+  "short_name": "Le Beldi",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F8F8",
+  "theme_color": "#B30D0D",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/zargo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/zargo-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
