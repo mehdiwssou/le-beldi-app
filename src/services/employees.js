@@ -94,3 +94,73 @@ export async function updateEmployee(id, values) {
   return data;
 
 }
+
+
+
+// ==============================
+// TRANSACTIONS EMPLOYÉS
+// ==============================
+
+// Récupérer toutes les opérations
+export async function getTransactions() {
+
+  const { data, error } = await supabase
+    .from("employee_transactions")
+    .select("*")
+    .order("date", { ascending: false });
+
+
+  if (error) {
+
+    console.log(error);
+    return [];
+
+  }
+
+
+  return data;
+
+}
+
+
+
+// Ajouter une opération
+export async function addTransaction(transaction) {
+
+  const { data, error } = await supabase
+    .from("employee_transactions")
+    .insert([transaction])
+    .select()
+    .single();
+
+
+  if (error) {
+
+    console.log(error);
+    return null;
+
+  }
+
+
+  return data;
+
+}
+
+
+
+// Supprimer une opération
+export async function deleteTransaction(id) {
+
+  const { error } = await supabase
+    .from("employee_transactions")
+    .delete()
+    .eq("id", id);
+
+
+  if (error) {
+
+    console.log(error);
+
+  }
+
+}

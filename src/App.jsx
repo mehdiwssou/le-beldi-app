@@ -12,6 +12,7 @@ import Absences from "./pages/Absences";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
+import EmployeeDetails from "./pages/EmployeeDetails";
 
 
 function App(){
@@ -23,17 +24,14 @@ function App(){
   const [connected,setConnected]=useState(false);
 
 
-
   const [page,setPage]=useState(
     localStorage.getItem("page") || "home"
   );
 
 
-
   const [role,setRole]=useState(
     localStorage.getItem("role") || "manager"
   );
-
 
 
   const [month,setMonth]=useState(
@@ -44,11 +42,13 @@ function App(){
   );
 
 
-
   const [year,setYear]=useState(
     Number(localStorage.getItem("year")) ||
     currentDate.getFullYear()
   );
+
+
+  const [selectedEmployee,setSelectedEmployee]=useState(null);
 
 
 
@@ -89,6 +89,7 @@ function App(){
 
 
 
+
   useEffect(()=>{
 
     localStorage.setItem(
@@ -102,6 +103,7 @@ function App(){
 
 
 
+
   useEffect(()=>{
 
     localStorage.setItem(
@@ -110,6 +112,7 @@ function App(){
     );
 
   },[month]);
+
 
 
 
@@ -130,6 +133,7 @@ function App(){
 
 
 
+
   function logout(){
 
     localStorage.clear();
@@ -137,6 +141,8 @@ function App(){
     setConnected(false);
 
     setPage("home");
+
+    setSelectedEmployee(null);
 
   }
 
@@ -168,6 +174,7 @@ function App(){
 
 
 
+
   return (
 
     <div
@@ -184,7 +191,7 @@ function App(){
 
 
 
-      {/* TOPBAR SEULEMENT ACCUEIL */}
+
 
       {
         page==="home" &&
@@ -203,7 +210,6 @@ function App(){
 
 
 
-      {/* PERIODE */}
 
       <div
         className="
@@ -255,6 +261,7 @@ function App(){
 
 
 
+
       {
         page==="employees" &&
 
@@ -269,6 +276,7 @@ function App(){
         />
 
       }
+
 
 
 
@@ -297,20 +305,51 @@ function App(){
 
 
 
+
+
       {
         page==="advances" &&
 
-        <Advances
+        (
 
-          setPage={setPage}
+          selectedEmployee ?
 
-          month={month}
 
-          year={year}
+<EmployeeDetails
 
-        />
+  employee={selectedEmployee}
+
+  setSelectedEmployee={setSelectedEmployee}
+
+  month={month}
+
+  year={year}
+
+  showFinance={selectedEmployee.showFinance}
+
+/>
+
+          :
+
+
+          <Advances
+
+            setPage={setPage}
+
+            setSelectedEmployee={setSelectedEmployee}
+
+            month={month}
+
+            year={year}
+
+          />
+          
+
+        )
 
       }
+
+
 
 
 
@@ -319,19 +358,43 @@ function App(){
 
 
       {
-        page==="absences" &&
+  page==="absences" &&
 
-        <Absences
+  (
+    selectedEmployee ?
 
-          setPage={setPage}
+    <EmployeeDetails
 
-          month={month}
+      employee={selectedEmployee}
 
-          year={year}
+      setSelectedEmployee={setSelectedEmployee}
 
-        />
+      month={month}
 
-      }
+      year={year}
+
+      showAbsence={selectedEmployee.showAbsence}
+
+    />
+
+    :
+
+    <Absences
+
+      setPage={setPage}
+
+      setSelectedEmployee={setSelectedEmployee}
+
+      month={month}
+
+      year={year}
+
+    />
+
+  )
+
+}
+
 
 
 
@@ -358,6 +421,7 @@ function App(){
 
 
 
+
       {
         page==="settings" &&
 
@@ -375,6 +439,7 @@ function App(){
 
 
 
+
       <Navbar
 
         role={role}
@@ -382,6 +447,7 @@ function App(){
         setPage={setPage}
 
       />
+
 
 
 

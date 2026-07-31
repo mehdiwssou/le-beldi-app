@@ -160,16 +160,12 @@ function Employees({ month, year, setPage }) {
     return (
 
       <EmployeeDetails
-
-        employee={selectedEmployee}
-
-        setSelectedEmployee={setSelectedEmployee}
-
-        month={month}
-
-        year={year}
-
-      />
+  employee={selectedEmployee}
+  setSelectedEmployee={setSelectedEmployee}
+  month={month}
+  year={year}
+  showFinance={selectedEmployee.showFinance}
+/>
 
     );
 
