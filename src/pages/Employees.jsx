@@ -196,59 +196,32 @@ function Employees({ month, year, setPage }) {
 
       {/* HEADER */}
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex justify-end mb-6">
 
+  <div
+    className="
+      bg-white
+      px-4
+      py-2
+      rounded-full
+      shadow-sm
+      border
+      border-[#D3D1C7]
+      flex
+      items-center
+      gap-2
+    "
+  >
 
-        <button
+    <Users size={18} className="text-[#B30D0D]" />
 
-          onClick={()=>setPage("home")}
+    <span className="font-semibold">
+      {employees.length} actifs
+    </span>
 
-          className="
-            text-[#B30D0D]
-            font-bold
-          "
+  </div>
 
-        >
-
-          ← Retour
-
-        </button>
-
-
-
-
-
-        <div
-
-          className="
-            bg-white
-            px-4
-            py-2
-            rounded-full
-            shadow-sm
-            border
-            border-[#D3D1C7]
-            flex
-            items-center
-            gap-2
-          "
-
-        >
-
-          <Users size={18} className="text-[#B30D0D]"/>
-
-          <span className="font-semibold">
-
-            {employees.length} actifs
-
-          </span>
-
-
-        </div>
-
-
-
-      </div>
+</div>
             {/* AJOUTER EMPLOYE */}
 
       <div className="flex justify-center mb-6">

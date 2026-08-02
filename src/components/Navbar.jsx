@@ -2,69 +2,112 @@ import {
   House,
   Users,
   Settings,
-  Shield
+  Shield,
+  ArrowLeft
 } from "lucide-react";
 
 import { can } from "../permissions/permissions";
 
-
 function Navbar({
   setPage,
-  role
+  role,
+  goBack,
+  page
 }) {
-
 
   return (
 
-    <div className="
+    <div
+      className="
+        fixed
+        bottom-4
+        left-4
+        right-4
+        h-20
+        bg-white
+        border
+        border-[#D3D1C7]
+        rounded-3xl
+        shadow-xl
+        flex
+        items-center
+        justify-around
+        z-50
+      "
+    >
 
-      fixed
-      bottom-4
-      left-4
-      right-4
 
-      h-20
+      {
+        page !== "home" ? (
 
-      bg-white
+          <button
+            onClick={goBack}
+            className="
+              flex
+              items-center
+              gap-2
+              px-4
+              py-2
+              rounded-2xl
+              bg-[#F1EFE8]
+              border
+              border-[#D3D1C7]
+              text-[#B30D0D]
+              font-bold
+              shadow-sm
+              active:scale-95
+              transition
+            "
+          >
 
-      border
-      border-[#D3D1C7]
+            <div
+              className="
+                w-8
+                h-8
+                rounded-full
+                bg-[#B30D0D]
+                text-white
+                flex
+                items-center
+                justify-center
+              "
+            >
 
-      rounded-3xl
+              <ArrowLeft size={18} />
 
-      shadow-xl
+            </div>
 
-      flex
-      items-center
-      justify-around
+            <span>
+              Retour
+            </span>
 
-      z-50
+          </button>
 
-    ">
+        ) : (
+
+          <button
+            onClick={() => setPage("home")}
+            className={item}
+          >
+
+            <House
+              size={24}
+              color="#B30D0D"
+            />
+
+            <span>
+              Accueil
+            </span>
+
+          </button>
+
+        )
+      }
+
 
 
       <button
-        onClick={()=>setPage("home")}
-        className={item}
-      >
-
-        <House
-          size={24}
-          color="#B30D0D"
-        />
-
-        <span>
-          Accueil
-        </span>
-
-      </button>
-
-
-
-
-
-      <button
-        onClick={()=>setPage("employees")}
+        onClick={() => setPage("employees")}
         className={item}
       >
 
@@ -81,15 +124,11 @@ function Navbar({
 
 
 
-
-
-
-
       {
-        can(role,"users") && (
+        can(role, "users") && (
 
           <button
-            onClick={()=>setPage("users")}
+            onClick={() => setPage("users")}
             className={item}
           >
 
@@ -109,13 +148,8 @@ function Navbar({
 
 
 
-
-
-
-
-
       <button
-        onClick={()=>setPage("settings")}
+        onClick={() => setPage("settings")}
         className={item}
       >
 
@@ -131,8 +165,6 @@ function Navbar({
       </button>
 
 
-
-
     </div>
 
   );
@@ -140,31 +172,18 @@ function Navbar({
 }
 
 
-
-
-
 const item = `
-
 flex
 flex-col
 items-center
 justify-center
-
 gap-1
-
 text-xs
-
 font-semibold
-
 text-[#2C2C2A]
-
 hover:text-[#B30D0D]
-
 transition
-
 `;
-
-
 
 
 export default Navbar;

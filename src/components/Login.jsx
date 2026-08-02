@@ -12,8 +12,6 @@ function Login({ setConnected, setRole }) {
 
   async function login() {
 
-    console.log("📱 Bouton connexion cliqué");
-
     if (!username || !password) {
       alert("Veuillez remplir tous les champs.");
       return;
@@ -28,8 +26,6 @@ function Login({ setConnected, setRole }) {
       .eq("password", password.trim())
       .single();
 
-    console.log("📦 Réponse Supabase :", { data, error });
-
     setLoading(false);
 
     if (error || !data) {
@@ -37,27 +33,27 @@ function Login({ setConnected, setRole }) {
       return;
     }
 
-    console.log(data);
-
     if (!data.active) {
       alert("Ce compte a été désactivé par le propriétaire.");
       return;
     }
 
-    localStorage.setItem("connected", "true");
     localStorage.setItem("username", data.username);
     localStorage.setItem("fullname", data.fullname || "");
     localStorage.setItem("role", data.role);
     localStorage.setItem("userId", data.id);
 
-    if (setRole) {
-      setRole(data.role);
-    }
-
     if (rememberMe) {
       localStorage.setItem("rememberMe", "true");
+      localStorage.setItem("connected", "true");
     } else {
       localStorage.removeItem("rememberMe");
+      localStorage.removeItem("connected");
+      sessionStorage.setItem("connected", "true");
+    }
+
+    if (setRole) {
+      setRole(data.role);
     }
 
     alert("Bienvenue 👋");
@@ -70,7 +66,8 @@ function Login({ setConnected, setRole }) {
       login();
     }
   }
-    return (
+
+  return (
     <div className="min-h-screen bg-gradient-to-br from-[#F8F8F8] via-white to-[#EFEFEF] flex items-center justify-center p-6">
 
       <div className="w-full max-w-md bg-white rounded-[40px] shadow-2xl border border-gray-200 p-10">
@@ -161,6 +158,6 @@ function Login({ setConnected, setRole }) {
 
     </div>
   );
-  }
+}
 
 export default Login;

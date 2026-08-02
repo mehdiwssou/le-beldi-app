@@ -110,13 +110,9 @@ async function addAbsence() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 p-5 pb-24 text-gray-900 dark:text-white">
-      <button
-        onClick={() => setSelectedEmployee(null)}
-        className="text-blue-600 dark:text-blue-400 font-bold mb-5"
-      >
-        ⬅ Retour
-      </button>
+    <div className="min-h-screen bg-[#f7f5ef] p-5 pb-24 text-gray-900">
+      
+        
 
       <EmployeeHeader
         emp={emp}

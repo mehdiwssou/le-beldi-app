@@ -7,17 +7,13 @@ import {
   HandCoins
 } from "lucide-react";
 
-
-function Advances({ setPage, setSelectedEmployee }) {
-
+function Advances({ setSelectedEmployee }) {
 
   const [employees, setEmployees] = useState([]);
 
+  useEffect(() => {
 
-
-  useEffect(()=>{
-
-    async function load(){
+    async function load() {
 
       const data = await getEmployees();
 
@@ -25,16 +21,9 @@ function Advances({ setPage, setSelectedEmployee }) {
 
     }
 
-
     load();
 
-
-  },[]);
-
-
-
-
-
+  }, []);
 
   return (
 
@@ -47,32 +36,7 @@ function Advances({ setPage, setSelectedEmployee }) {
       "
     >
 
-
-
-
-      <button
-
-        onClick={()=>setPage("home")}
-
-        className="
-          mb-6
-          text-[#B30D0D]
-          font-bold
-        "
-
-      >
-
-        ⬅ Retour
-
-      </button>
-
-
-
-
-
-
       <div className="flex items-center gap-3 mb-6">
-
 
         <div
           className="
@@ -87,155 +51,90 @@ function Advances({ setPage, setSelectedEmployee }) {
           "
         >
 
-          <HandCoins size={24}/>
+          <HandCoins size={24} />
 
         </div>
-
-
 
         <div>
 
           <h1 className="text-3xl font-bold">
-
             💸 Acomptes
-
           </h1>
 
-
           <p className="text-gray-500">
-
             Gestion des acomptes et prélèvements
-
           </p>
-
 
         </div>
 
-
       </div>
-
-
-
-
-
-
-
 
       <div className="space-y-4">
 
+        {employees.map(emp => (
 
-        {
-          employees.map(emp=>(
+          <button
 
+            key={emp.id}
 
-            <button
+            onClick={() =>
+              setSelectedEmployee({
+                ...emp,
+                showFinance: true
+              })
+            }
 
-              key={emp.id}
+            className="
+              w-full
+              bg-white
+              rounded-3xl
+              p-5
+              border
+              border-[#D3D1C7]
+              shadow-sm
+              flex
+              items-center
+              justify-between
+              text-left
+            "
 
-              onClick={()=>setSelectedEmployee({
-  ...emp,
-  showFinance:true
-})}
+          >
 
-              className="
-                w-full
-                bg-white
-                rounded-3xl
-                p-5
-                border
-                border-[#D3D1C7]
-                shadow-sm
-                flex
-                items-center
-                justify-between
-                text-left
-              "
+            <div>
 
-            >
+              <h2 className="font-bold text-xl">
+                {emp.name}
+              </h2>
 
+              <p className="text-sm text-gray-500">
+                {emp.position}
+              </p>
 
+              <p className="text-orange-700 font-bold mt-2">
+                Acomptes : {Number(emp.advances || 0).toLocaleString()} DA
+              </p>
 
-              <div>
+              <p className="text-red-700 font-bold">
+                Prélèvements : {Number(emp.deductions || 0).toLocaleString()} DA
+              </p>
 
+            </div>
 
-                <h2 className="font-bold text-xl">
+            <ChevronRight
+              size={25}
+              className="text-[#B30D0D]"
+            />
 
-                  {emp.name}
+          </button>
 
-                </h2>
-
-
-
-                <p className="text-sm text-gray-500">
-
-                  {emp.position}
-
-                </p>
-
-
-
-
-
-                <p className="text-orange-700 font-bold mt-2">
-
-                  Acomptes :
-                  {" "}
-                  {Number(emp.advances || 0).toLocaleString()}
-                  {" DA"}
-
-                </p>
-
-
-
-
-                <p className="text-red-700 font-bold">
-
-                  Prélèvements :
-                  {" "}
-                  {Number(emp.deductions || 0).toLocaleString()}
-                  {" DA"}
-
-                </p>
-
-
-
-              </div>
-
-
-
-
-
-              <ChevronRight
-
-                size={25}
-
-                className="text-[#B30D0D]"
-
-              />
-
-
-            </button>
-
-
-          ))
-
-        }
-
-
+        ))}
 
       </div>
-
-
-
-
 
     </div>
 
   );
 
-
 }
-
-
 
 export default Advances;

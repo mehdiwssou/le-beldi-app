@@ -55,21 +55,27 @@ function App(){
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
+  const remembered =
+    localStorage.getItem("rememberMe") === "true";
 
-    if(localStorage.getItem("connected")==="true"){
+  const connected =
+    remembered
+      ? localStorage.getItem("connected")
+      : sessionStorage.getItem("connected");
 
-      setConnected(true);
+  if (connected === "true") {
 
-      setRole(
-        localStorage.getItem("role") || "manager"
-      );
+    setConnected(true);
 
-    }
+    setRole(
+      localStorage.getItem("role") || "manager"
+    );
 
+  }
 
-  },[]);
+}, []);
 
 
 
@@ -90,14 +96,7 @@ function App(){
 
 
 
-  useEffect(()=>{
-
-    localStorage.setItem(
-      "connected",
-      connected
-    );
-
-  },[connected]);
+  
 
 
 
@@ -134,20 +133,34 @@ function App(){
 
 
 
-  function logout(){
+  function logout() {
 
-    localStorage.clear();
+  localStorage.removeItem("connected");
+  localStorage.removeItem("rememberMe");
 
-    setConnected(false);
+  sessionStorage.removeItem("connected");
 
-    setPage("home");
+  setConnected(false);
+
+  setPage("home");
+
+  setSelectedEmployee(null);
+
+}
+
+function goBack() {
+
+  if (selectedEmployee) {
 
     setSelectedEmployee(null);
 
+  } else {
+
+    setPage("home");
+
   }
 
-
-
+}
 
 
 
@@ -441,12 +454,12 @@ function App(){
 
 
       <Navbar
-
-        role={role}
-
-        setPage={setPage}
-
-      />
+  page={page}
+  role={role}
+  setPage={setPage}
+  goBack={goBack}
+  selectedEmployee={selectedEmployee}
+/>
 
 
 
