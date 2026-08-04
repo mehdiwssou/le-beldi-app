@@ -7,11 +7,17 @@ import FinanceSection from "../components/employee/FinanceSection";
 import HistorySection from "../components/employee/HistorySection";
 import DangerZone from "../components/employee/DangerZone";
 import AbsenceSection from "../components/employee/AbsenceSection";
+import AttendanceSection from "../components/employee/AttendanceSection";
+
 import {
   updateEmployee,
   deleteEmployee,
   getEmployeeTransactions
 } from "../services/employees";
+
+import {
+  getEmployeeAttendance
+} from "../services/attendance";
 
 
 function EmployeeDetails({
@@ -28,6 +34,8 @@ function EmployeeDetails({
 
   const [transactions, setTransactions] = useState([]);
 
+  const [attendance, setAttendance] = useState([]);
+
 
 
   async function loadTransactions() {
@@ -38,13 +46,31 @@ function EmployeeDetails({
 
   }
 
+console.log("DEVICE UID :", employee.device_uid);
+console.log("EMPLOYEE :", employee);
+
+  async function loadAttendance() {
+    console.log("LOAD ATTENDANCE OK");
+
+   console.log("DEVICE UID ENVOYE :", employee.device_uid);
+
+const data = await getEmployeeAttendance(employee.device_uid);
+    console.log("ATTENDANCE DATA :", data);
+
+    setAttendance(data);
+
+  }
+
 
 
   useEffect(() => {
 
     loadTransactions();
 
+    loadAttendance();
+
   }, [employee.id]);
+
 
 
 
@@ -53,7 +79,6 @@ function EmployeeDetails({
 
   const [absenceType, setAbsenceType] = useState("justifiee");
 
-
   const [editMode, setEditMode] = useState(false);
 
 
@@ -61,6 +86,7 @@ function EmployeeDetails({
   const [editPosition, setEditPosition] = useState(employee.position);
   const [editSalary, setEditSalary] = useState(employee.salary);
   const [editPhone, setEditPhone] = useState(employee.phone || "");
+
 
 
 
@@ -93,6 +119,7 @@ function EmployeeDetails({
 
 
 
+
   async function saveEdit() {
 
     const updated = {
@@ -115,6 +142,7 @@ function EmployeeDetails({
     setEditMode(false);
 
   }
+
 
 
 
@@ -176,10 +204,12 @@ function EmployeeDetails({
 
 
 
+
   const netSalary =
     emp.salary -
     (emp.advances || 0) -
     (emp.deductions || 0);
+
 
 
 
@@ -189,6 +219,7 @@ function EmployeeDetails({
     ? Math.round(((emp.advances || 0) / emp.salary) * 100)
 
     : 0;
+
 
 
 
@@ -216,6 +247,7 @@ function EmployeeDetails({
 
 
 
+
   return (
 
     <div className="min-h-screen bg-[#f7f5ef] p-5 pb-24 text-gray-900">
@@ -237,6 +269,7 @@ function EmployeeDetails({
         risk={risk}
 
       />
+
 
 
 
@@ -290,8 +323,21 @@ function EmployeeDetails({
 
 
 
-      {
 
+      <AttendanceSection
+
+        attendance={attendance}
+
+      />
+
+
+
+
+
+
+
+
+      {
         showAbsence && (
 
           <AbsenceSection
@@ -307,7 +353,6 @@ function EmployeeDetails({
           />
 
         )
-
       }
 
 
@@ -316,8 +361,8 @@ function EmployeeDetails({
 
 
 
-      {
 
+      {
         showFinance && (
 
           <FinanceSection
@@ -331,8 +376,8 @@ function EmployeeDetails({
           />
 
         )
-
       }
+
 
 
 
@@ -347,6 +392,8 @@ function EmployeeDetails({
         transactions={transactions}
 
       />
+
+
 
 
 
