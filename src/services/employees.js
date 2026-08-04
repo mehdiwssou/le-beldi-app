@@ -79,6 +79,22 @@ export async function getTransactions() {
   return data;
 }
 
+// Récupérer les opérations d'un employé
+export async function getEmployeeTransactions(employeeId) {
+  const { data, error } = await supabase
+    .from("employee_transactions")
+    .select("*")
+    .eq("employee_id", employeeId)
+    .order("date", { ascending: false });
+
+  if (error) {
+    console.log(error);
+    return [];
+  }
+
+  return data;
+}
+
 // Ajouter une opération
 export async function addTransaction(transaction) {
   const { data, error } = await supabase

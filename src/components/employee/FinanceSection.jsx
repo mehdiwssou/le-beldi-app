@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { addTransaction } from "../../services/employees";
 import {
   HandCoins,
   MinusCircle,
@@ -40,26 +40,33 @@ function FinanceSection({
       advances:
         Number(emp.advances || 0)
         +
-        amount,
-
-
-      history:[
-
-        ...(emp.history || []),
-
-        {
-
-          type:"Acompte",
-
-          amount,
-
-          date:new Date().toLocaleDateString()
-
-        }
-
-      ]
+        amount
 
     };
+
+
+
+    const result = await addTransaction({
+
+      employee_id: emp.id,
+
+      type: "Acompte",
+
+      amount,
+
+      cause: null,
+
+      date: new Date().toISOString().split("T")[0],
+
+      month: new Date().getMonth() + 1,
+
+      year: new Date().getFullYear()
+
+    });
+
+
+
+    console.log("Transaction :", result);
 
 
 
@@ -91,36 +98,39 @@ function FinanceSection({
 
       ...emp,
 
-
       deductions:
 
         Number(emp.deductions || 0)
 
         +
 
-        amount,
-
-
-
-      history:[
-
-        ...(emp.history || []),
-
-        {
-
-          type:"Prélèvement",
-
-          amount,
-
-          cause,
-
-          date:new Date().toLocaleDateString()
-
-        }
-
-      ]
+        amount
 
     };
+
+
+
+    const result = await addTransaction({
+
+      employee_id: emp.id,
+
+      type: "Prélèvement",
+
+      amount,
+
+      cause,
+
+      date: new Date().toISOString().split("T")[0],
+
+      month: new Date().getMonth() + 1,
+
+      year: new Date().getFullYear()
+
+    });
+
+
+
+    console.log("Transaction :", result);
 
 
 
@@ -132,6 +142,7 @@ function FinanceSection({
     setCause("");
 
   }
+
 
 
 
@@ -155,11 +166,8 @@ function FinanceSection({
     >
 
 
-
       <h2 className="font-bold text-xl mb-5">
-
         💸 Gestion financière
-
       </h2>
 
 
@@ -174,9 +182,7 @@ function FinanceSection({
           <HandCoins size={22}/>
 
           <h3 className="font-bold">
-
             Ajouter un acompte
-
           </h3>
 
         </div>
@@ -243,6 +249,7 @@ function FinanceSection({
 
 
 
+
       <div>
 
 
@@ -253,9 +260,7 @@ function FinanceSection({
 
 
           <h3 className="font-bold">
-
             Ajouter un prélèvement
-
           </h3>
 
 
